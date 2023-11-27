@@ -1,7 +1,7 @@
-import FormLogin from '../Fragments/FormLogin';
+import { Link } from 'react-router-dom';
 
 const AuthLayout = props => {
-  const { children, title } = props;
+  const { children, title, type } = props;
 
   return (
     <div className="flex justify-center  min-h-screen items-center">
@@ -11,8 +11,52 @@ const AuthLayout = props => {
           Welcome, Please enter your details
         </p>
         {children}
+        <Navigation type={type} />
+        {/* <p className="text-sm mt-5 text-center">
+          {type === 'login' ? "Don't have an account? " : 'Have an account? '}
+          {type === 'login' && (
+            <Link to="/register" className="font-bold text-blue-600">
+              Register
+            </Link>
+          )}
+          {type === 'register' && (
+            <Link to="/login" className="font-bold text-blue-600">
+              Login
+            </Link>
+          )}
+          {type === 'logout' && (
+            <Link to="/home" className="font-bold text-blue-600">
+              Login
+            </Link>
+          )}
+        </p> */}
       </div>
     </div>
   );
 };
+
+const Navigation = ({ type }) => {
+  if (type === 'login') {
+    return (
+      <p className="text-sm mt-5 text-center">
+        Don&apos;t have an account?{' '}
+        <Link to="/register" className="font-bold text-blue-600">
+          {/* Pindah halaman tanpa reload halaman dengan client side routing */}
+          Register
+        </Link>
+      </p>
+    );
+  } else {
+    return (
+      <p className="text-sm mt-5 text-center">
+        Have an account?{' '}
+        <Link to="/login" className="font-bold text-blue-600">
+          {/* Pindah halaman tanpa reload halaman dengan client side routing */}
+          Login
+        </Link>
+      </p>
+    );
+  }
+};
+
 export default AuthLayout;
