@@ -14,6 +14,14 @@ const FormRegister = () => {
       </div>
       <div className="mb-6">
         <InputForm
+          label="E-mail"
+          type="email"
+          placeholder="example@default.com"
+          name="email"
+        />
+      </div>
+      <div className="mb-6">
+        <InputForm
           label="Password"
           placeholder="******"
           name="password"
@@ -24,8 +32,8 @@ const FormRegister = () => {
         <InputForm
           label="Confirm Password"
           placeholder="******"
-          name="password"
-          type="confirmPassword"
+          name="confirmPassword"
+          type="password"
         />
       </div>
       <Button className="bg-blue-600 w-full">Register</Button>
