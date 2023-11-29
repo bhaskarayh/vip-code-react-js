@@ -5,7 +5,7 @@ const AuthLayout = props => {
 
     return (
         <div className="flex justify-center  min-h-screen items-center">
-            <div className="w-full max-w-xs">
+            <div className="w-full max-w-sm border border-slate-200 py-5 px-10 shadow-lg rounded-lg ">
                 <h1 className="text-3xl font-bold mb-2 text-blue-600">
                     {title}
                 </h1>
@@ -15,23 +15,23 @@ const AuthLayout = props => {
                 {children}
                 <Navigation type={type} />
                 {/* <p className="text-sm mt-5 text-center">
-          {type === 'login' ? "Don't have an account? " : 'Have an account? '}
-          {type === 'login' && (
-            <Link to="/register" className="font-bold text-blue-600">
-              Register
-            </Link>
-          )}
-          {type === 'register' && (
-            <Link to="/login" className="font-bold text-blue-600">
-              Login
-            </Link>
-          )}
-          {type === 'logout' && (
-            <Link to="/home" className="font-bold text-blue-600">
-              Login
-            </Link>
-          )}
-        </p> */}
+            {type === 'login' ? "Don't have an account? " : 'Have an account? '}
+            {type === 'login' && (
+                <Link to="/register" className="font-bold text-blue-600">
+                Register
+                </Link>
+            )}
+            {type === 'register' && (
+                <Link to="/login" className="font-bold text-blue-600">
+                Login
+                </Link>
+            )}
+            {type === 'logout' && (
+                <Link to="/home" className="font-bold text-blue-600">
+                Login
+                </Link>
+            )}
+            </p> */}
             </div>
         </div>
     );
