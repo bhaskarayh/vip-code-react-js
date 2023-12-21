@@ -1,7 +1,6 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import CardProduct from '../components/Fragments/CardProduct';
 import Button from '../components/Elements/Button';
-import Counter from '../components/Fragments/Counter';
 
 const products = [
     {
@@ -99,6 +98,26 @@ const ProducsPage = () => {
         }
     };
 
+    /* UseRef - Tidak akan di render jadi butuh refresh biar di render ke depan, tetapi data tetap disimpan*/
+    const cartRef = useRef(JSON.parse(localStorage.getItem('cart')) || []);
+
+    const handleAddToCartRef = id => {
+        cartRef.current = [...cartRef.current, { id, qty: 1 }];
+        localStorage.setItem('cart', JSON.stringify(cartRef.current));
+    };
+
+    const totalPriceRef = useRef(null);
+
+    console.log(totalPriceRef);
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            totalPriceRef.current.style.display = 'table-row';
+        } else {
+            totalPriceRef.current.style.display = 'none';
+        }
+    }, [cart]);
+
     return (
         <Fragment>
             <div className="flex justify-end h-10 bg-blue-600 text-white items-center px-10 py-8">
@@ -120,8 +139,9 @@ const ProducsPage = () => {
                             <CardProduct.Footer
                                 price={product.price}
                                 id={product.id}
-                                handleAddToCart={() =>
-                                    handleAddToCart(product.id)
+                                handleAddToCart={
+                                    () => handleAddToCart(product.id)
+                                    // handleAddToCartRef(product.id)
                                 }
                             />
                         </CardProduct>
@@ -143,6 +163,8 @@ const ProducsPage = () => {
                         <tbody>
                             {/* {console.log(cart)} */}
                             {cart.map(item => {
+                                // {console.log(cartRef)}
+                                // {cartRef.current.map(item => {
                                 const product = products.find(
                                     product => product.id === item.id
                                 );
@@ -171,7 +193,7 @@ const ProducsPage = () => {
                                     </tr>
                                 );
                             })}
-                            <tr>
+                            <tr ref={totalPriceRef}>
                                 <td colSpan={3}>
                                     <b>Total Price</b>
                                 </td>
