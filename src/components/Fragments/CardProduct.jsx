@@ -23,21 +23,32 @@ const Body = props => {
     return (
         <div className="px-5 pb-5 h-full">
             <a href="">
-                <h5 className="text-xl text-white font-semibold tracking-tight ">
+                <h5 className="text-xl text-white font-semibold tracking-tight mb-3">
                     {name}
                 </h5>
-                <p className="text-m text-white">{children}</p>
+                <p className="text-sm text-white">{children}</p>
             </a>
         </div>
     );
 };
 
 const Footer = props => {
-    const { price } = props;
+    const { price, handleAddToCart, id } = props;
+
     return (
         <div className="flex items-center justify-between px-5 pb-5">
-            <span className="text-xl font-bold text-white">{price}</span>
-            <Button className="bg-blue-600">Add to Card</Button>
+            <span className="text-lg font-bold text-white">
+                {price.toLocaleString('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                })}
+            </span>
+            <Button
+                className="bg-blue-600 text-md"
+                onClick={() => handleAddToCart(id)}
+            >
+                Add to Card
+            </Button>
         </div>
     );
 };
