@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import CardProduct from '../components/Fragments/CardProduct';
 import Button from '../components/Elements/Button';
 import Counter from '../components/Fragments/Counter';
@@ -35,7 +35,37 @@ const email = localStorage.getItem('email');
 
 const ProducsPage = () => {
     const [cart, setCart] = useState([]);
-    // console.log(cart);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    // ComponentDidMount
+    useEffect(
+        () => {
+            setCart(JSON.parse(localStorage.getItem('cart')) || []);
+        },
+        // ComponentDidUpdate
+        // Dependency harus diisi walaupun kosong
+        []
+    );
+
+    // ComponentDidMount
+    useEffect(
+        () => {
+            if (cart.length > 0) {
+                const sum = cart.reduce((acc, item) => {
+                    const product = products.find(
+                        product => product.id === item.id
+                    );
+
+                    return acc + product.price * item.qty;
+                }, 0);
+                setTotalPrice(sum);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        },
+        // ComponentDidUpdate
+        // Dependency harus diisi walaupun kosong
+        [cart]
+    );
 
     const handleLogout = () => {
         localStorage.removeItem('email');
@@ -73,9 +103,11 @@ const ProducsPage = () => {
         <Fragment>
             <div className="flex justify-end h-10 bg-blue-600 text-white items-center px-10 py-8">
                 {email}
-                <Button className="ml-5 bg-red-600" onClick={handleLogout}>
-                    Logout
-                </Button>
+                {email !== null && (
+                    <Button className="ml-5 bg-red-600" onClick={handleLogout}>
+                        Logout
+                    </Button>
+                )}
             </div>
             <div className="flex justify-center py-5 ">
                 <div className="w-4/6 flex flex-wrap gap-3 justify-center">
@@ -109,7 +141,7 @@ const ProducsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {console.log(cart)}
+                            {/* {console.log(cart)} */}
                             {cart.map(item => {
                                 const product = products.find(
                                     product => product.id === item.id
@@ -139,6 +171,19 @@ const ProducsPage = () => {
                                     </tr>
                                 );
                             })}
+                            <tr>
+                                <td colSpan={3}>
+                                    <b>Total Price</b>
+                                </td>
+                                <td>
+                                    <b>
+                                        {totalPrice.toLocaleString('id-ID', {
+                                            style: 'currency',
+                                            currency: 'IDR',
+                                        })}
+                                    </b>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
