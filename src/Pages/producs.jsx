@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect, useRef } from 'react';
 import CardProduct from '../components/Fragments/CardProduct';
 import Button from '../components/Elements/Button';
 import { getProducts } from '../services/product.service';
+import { getUsername } from '../services/auth.service';
 
 /* const products = [
     {
@@ -31,12 +32,15 @@ import { getProducts } from '../services/product.service';
 ]; */
 
 // Get from Local Storage
-const email = localStorage.getItem('email');
+// const email = localStorage.getItem('email');
+// const username = jwtDecode(localStorage.getItem('token')).user;
+// console.log(jwtDecode(localStorage.getItem('token')).user);
 
 const ProducsPage = () => {
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [products, setProducts] = useState([]);
+    const [username, setUsername] = useState('');
 
     // ComponentDidMount
     useEffect(
@@ -47,6 +51,16 @@ const ProducsPage = () => {
         // Dependency harus diisi walaupun kosong
         []
     );
+
+    // Get Username from Token
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setUsername(getUsername(token));
+        } else {
+            window.location.href = '/login';
+        }
+    }, []);
 
     // Use Effect API
     useEffect(() => {
@@ -77,8 +91,9 @@ const ProducsPage = () => {
     );
 
     const handleLogout = () => {
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
+        // localStorage.removeItem('email');
+        // localStorage.removeItem('password');
+        localStorage.removeItem('token');
         window.location.href = '/login';
     };
 
@@ -131,8 +146,8 @@ const ProducsPage = () => {
     return (
         <Fragment>
             <div className="flex justify-end h-10 bg-blue-600 text-white items-center px-10 py-8">
-                {email}
-                {email !== null && (
+                {username}
+                {username !== null && (
                     <Button className="ml-5 bg-red-600" onClick={handleLogout}>
                         Logout
                     </Button>
